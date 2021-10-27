@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title> ESP32 Web Server</title>
+</head>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .borderline {
+        border: 2px solid black;
+        margin: 30px auto;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        width: 50%;
+    }
+
+    .centerpage {
+        margin: 0px auto;
+        border-radius: 15px;
+        align-content: center;
+        width: 25%;
+    }
+    .restart_button{
+        display: flex;
+        justify-content: end;
+    }
+    .btn{
+        border: none;
+        padding: 14px;
+        font-size: 1.1rem;
+        color: #555;
+        border-radius: 4px;
+        background-color: #cacaca;
+        transition: all;
+    }
+    .btn:hover{
+        cursor: pointer;
+        background-color: #cfcfcf;
+    }
+
+</style>
+
+<body>
+
+
+    <form class="borderline">
+<div class="restart_button">
+    <button class="btn" type="button" onclick="esprest()"> ESP Restart </button>
+</div>
+        <h1><b>Node Setup</b></h1>
+        <div class="borderline">
+            <p><b>WiFi</b></p>
+            <label for="wid">SSID:</label>
+            <input type="text" id="wid" name="wid"><br><br>
+            <label for="wpass">Password:</label>
+            <input type="password" id="wpass" name="wpass"><br><br>
+        </div>
+
+        <div class=" borderline">
+            <p><b>MQTT</b></p>
+            <label for="mqttserve">Server:</label>
+            <input type="text" id="mqttserve" name="mqttserve"><br><br>
+            <label for="mqttport">Port:</label>
+            <input type="text" id="mqttport" name="mqttport"><br><br>
+            <label for="mqttuser">User Name:</label>
+            <input type="text" id="mqttuser" name="mqttuser"><br><br>
+            <label for="mqttpass">Password:</label>
+            <input type="password" id="mqttpass" name="mqttpass"><br><br>
+        </div>
+
+        <div class=" borderline">
+            <p><b>Machine</b></p>
+            <label for="mcname">Machine Name:</label>
+            <input type="text" id="mcname" name="mcname"><br><br>
+            <label for="mcplant">Machine Plant:</label>
+            <input type="text" id="mcplant" name="mcplant"><br><br>
+            <label for="mcbd">Machine Building:</label>
+            <input type="text" id="mcbd" name="mcbd"><br><br>
+        </div>
+        <!-- <button type="submit"> Submit </button> -->
+        <button type="button" onclick="dataSEND()"> Submit </button>
+    </form>
+</body>
+
+<script>
+    let ssidWiFi = document.getElementById("wid");
+    let passWiFi = document.getElementById("wpass");
+
+    let MQServe = document.getElementById("mqttserve");
+    let MQPort = document.getElementById("mqttport");
+
+
+    ssidWiFi.value = "IoT";
+    passWiFi.value = "BIT210821k";
+
+    MQServe.value = "192.168.74.72";
+    MQPort.value = "1883";
+
+    function esprest() {
+        console.log("ESP was restart");
+        var xhr = new XMLHttpRequest();
+        var urlrst = "/espReset?"
+
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                //document.getElementById("myDiv").innerHTML = this.responseText;
+                document.getElementById("myDiv").innerText = this.responseText;
+            }
+        };
+        xhr.open("GET", urlrst, true);
+        xhr.send();
+    };
+
+    function dataSEND() {
+        console.log("button2 was clicked!");
+        const ssid = document.getElementById("wid").value;
+        const password = document.getElementById("wpass").value;
+        const mqttserver = document.getElementById("mqttserve").value;
+        const mqttport = document.getElementById("mqttport").value;
+        const mqttuser = document.getElementById("mqttuser").value;
+        const mqttpass = document.getElementById("mqttpass").value;
+        const mcname = document.getElementById("mcname").value;
+        const mcplant = document.getElementById("mcplant").value;
+        const mcbd = document.getElementById("mcbd").value;
+
+
+        var xhr = new XMLHttpRequest();
+        // var url = "/showpara?" + "SSID" + "=" + document.getElementById("wid").value + "&" + "Password" + "=" + document.getElementById("wpass").value + "&" + "MQServer" + "=" + document.getElementById("mqttserve").value + "&" + "MQPort" + "=" + document.getElementById("mqttport").value + "&" + "MQUser" + "=" + document.getElementById("mqttuser").value + "&" + "MQPass" + "=" + document.getElementById("mqttpass").value + "&" + "MCName" + "=" + document.getElementById("mcname").value + "&" + "MCPlant" + "=" + document.getElementById("mcplant").value + "&" + "MCBuild" + "=" + document.getElementById("mcbd").value;
+        var url = `/showpara?SSID=${ssid}&Password=${password}&MQServer=${mqttserver}&MQPort=${mqttport}&MQUser=${mqttuser}&MQPass=${mqttpass}&MCName=${mcname}&MCPlant=${mcplant}&MCBuild=${mcbd}`;
+
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                //document.getElementById("myDiv").innerHTML = this.responseText;
+                document.getElementById("myDiv").innerText = this.responseText;
+            }
+        };
+        xhr.open("GET", url, true);
+        xhr.send();
+    };
+    // document.addEventListener('DOMContentLoaded', myfunction, false);//asdadsdwr
+    //dbdotboidtoidtjbiodtnb
+</script>
+
+</html>
+
+
+
+<!-- let wid = document.getElementById('wid').val();
+let wpass = document.getElementById('wpass').val();
+let mqttserve = document.getElementById('mqttserve').val();
+let mqttport = document.getElementById('mqttport').val();
+let mqttuser = document.getElementById('mqttuser').val();
+let mqttpass = document.getElementById('mqttpass').val();
+let mcname = document.getElementById('mcname').val();
+let mcplant = document.getElementById('mcplant').val();
+let mcbd = document.getElementById('mcbd').val();
+
+ var url = `/showpara?wid=${wid}&wpass=${wpass}&mqttserve=${mqttserve}&mqttport=${mqttport}&mqttuser=${mqttuser}&mqttpass=${mqttpass}&mcname=${mcname}&mcplant=${mcplant}&mcbd=${mcbd}`; -->
+ 
+ <!-- function SendData() {
+    console.log("button was clicked!");
+    var xhr = new XMLHttpRequest();
+    let wid = document.getElementById('wid').val();
+    let wi2wrgwrgwrgwrg2d = document.getElementById('wid').val();
+    let widasdwad = document.getElementById('wid').val();
+    let wid2 = document.getElementById('wid').val();
+    let wid3 = document.getElementById('wid').val();
+    //awdasdwd
+
+
+
+    var url = `/showpara?wid=${wid}&wpass=xxxx`;
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            // document.getElementById("Test-state").innerHTML = this.responseText;
+        }
+    };
+    xhr.open("GET", url, true);
+    xhr.send();
+}; -->
