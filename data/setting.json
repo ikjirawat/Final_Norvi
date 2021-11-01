@@ -1,0 +1,13 @@
+{
+  "mcName": "mxx",
+  "location": "R2",
+  "deviceIP": "192.168.74.72",
+  "deviceSN": "SN:m04-384E577C",
+  "data": {
+    "value": "1",
+    "counter": "1",
+    "event": "78",
+    "mcstatus": "stop"
+  },
+  "RSSI": -74
+}

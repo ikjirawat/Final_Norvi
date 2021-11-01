@@ -1,0 +1,8 @@
+IP upload (.bin file only)[xxxx.xxxx.xx.xx/update] 
+
+Firmware --> I:\IT Project Portfolio\project_OEE\code\Arduino\Firmware_v.05.11
+
+Filesystem --> ..\Firmware_v.05.11\data
+
+
+Board (Norvi) --> ESP32 Dev Module

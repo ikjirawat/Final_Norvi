@@ -102,6 +102,16 @@ int evstate = 0;
 String statusCheckRT;
 String receieveFromIP = "";
 
+String FFSSSID;
+String FFSPassword;
+String FFSMQServer;
+String FFSMQPort;
+String FFSMQUser;
+String FFSMQPass;
+String FFSMCName;
+String FFSMCPlant;
+String FFSMCBuild;
+
 void callback(char* topic, byte * payload, unsigned int length) {
   Serial.println("-------new message from broker-----");
   Serial.print("channel:");
@@ -159,8 +169,8 @@ void counter_state () {
     Serial.println(counting);
     sprintf(datact, "%d", counting);
     client.publish(mqtt_counting, datact);
-    publishData();
     previousstate = 1;
+    publishData();
     preHigh = currenT;
     preLow = preHigh;
   }
@@ -201,24 +211,10 @@ String readFile(String filename) {
   return (str);
 }
 
+void set_parameter_from_SPIFFS() {
 
-void Write_parameter_on_SPIFFS() {
-  //  int i = 0;
-  //  String strIP = "";
-  //
-  //  i = writeToFile("setting.json", receieveFromIP);
-  //  if (i > 0) {
-  //    Serial.println("write file successed " + String(i) + " bytes");
-  //
-  //    strIP = readFile("setting.json");
-  //    if (strIP != "") {
-  //      Serial.print("SPIFFS Content: ");
-  //      Serial.println(strIP);
-  //      Serial.println(strIP.length());
-  //    }
-  //  }
+  Serial.println("All paramer has been set!");
 }
-
 
 void Setting_parameter_on_web_server() {
   server.on("/", HTTP_GET, [](AsyncWebServerRequest * request) {
@@ -230,32 +226,18 @@ void Setting_parameter_on_web_server() {
     request->send(200, "text/plain", "ESP32 has been reset!");
   });
 
+  server.on("/getParameter", HTTP_GET, [](AsyncWebServerRequest * request) {
+    
+    request->send(200, "text/plain", "ESP32 has been reset!");
+  });
+
   server.on("/showpara", HTTP_GET, [](AsyncWebServerRequest * request) {
     String str = "";
     int paramsNr = request->params();
     str = "";
-
     int wf = 0;
     String strIP = "";
 
-    //    for (int i = 0; i < paramsNr; i++) {
-    //      DynamicJsonDocument  doc(1024);
-    //      JsonObject pconvert =  doc.to<JsonObject>();;
-    //
-    //      AsyncWebParameter* p = request->getParam(i);
-    //
-    //      pconvert[p->name()] = p->value();
-    //
-    //      str += p->name();
-    //      str += ":";
-    //      str += p->value() + "\r\n";
-    //
-    //      serializeJson(doc, bufSend);
-    //      Serial.println(bufSend);
-    //    }
-    //    Serial.println(str);
-    //    str += "\n\n";
-    /////////////////////////////////Path_add/////////////////////////////////////
     DynamicJsonDocument  doc(1024);
     JsonObject pconvert =  doc.to<JsonObject>();;
 
@@ -281,34 +263,12 @@ void Setting_parameter_on_web_server() {
 
     char bufSend[300];
     serializeJson(doc, bufSend);
-    //    Serial.println(bufSend);
 
     wf = writeToFile("setting.json", bufSend); //////Write to SPIFFS
     set_parameter_from_SPIFFS();
-//    if (wf > 0) {
-//      Serial.println("write file successed " + String(wf) + " bytes");
-//
-//      strIP = readFile("setting.json");  //////Read from SPIFFS
-//      if (strIP != "") {
-//        Serial.print("SPIFFS Content: ");
-//        Serial.println(strIP);
-//        Serial.println(strIP.length());
-//      }
-//    }
-    /////////////////////////////////Path_end/////////////////////////////////////
-    request->send(200, "text/plain", "message received\n\n" + String(str));
+    request->send(200, "text/plain", "Parameter has been set!\n\n" + String(str));
   });
 
-}
-
-void set_parameter_from_SPIFFS() {
-  String read_spiffs = "";
-  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
-  if (read_spiffs != "") {
-    Serial.print("SPIFFS Content: ");
-    Serial.println(read_spiffs);
-    Serial.println(read_spiffs.length());
-  }
 }
 
 
@@ -377,12 +337,46 @@ void setup() {
     Serial.println("Error while mounting SPIFFS");
     return;
   }
+  /////////////////////////////////////Set_parameter_from_SPIFFS.Read/////////////////////////////
+  String read_spiffs = "";
+  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
+
+  StaticJsonDocument<512> doc;
+
+  DeserializationError error = deserializeJson(doc, read_spiffs);
+
+  if (error) {
+    Serial.print(F("deserializeJson() failed: "));
+    Serial.println(error.f_str());
+    return;
+  }
+  const char* WSSID = doc["SSID"]; // "IoT"
+  const char* Password = doc["Password"]; // "BIT210821k"
+  const char* MQServer = doc["MQServer"]; // "192.168.74.72"
+  const char* MQPort = doc["MQPort"]; // "1883"
+  const char* MQUser = doc["MQUser"]; // "oee"
+  const char* MQPass = doc["MQPass"]; // "testt"
+  const char* MCName = doc["MCName"]; // "m04"
+  const char* MCPlant = doc["MCPlant"]; // "R2"
+  const char* MCBuild = doc["MCBuild"]; // "R2"
+
+  FFSSSID = String(WSSID);
+  FFSPassword = String(Password);
+  FFSMQServer = String(MQServer);
+  FFSMQPort = String(MQPort);
+  FFSMQUser = String(MQUser);
+  FFSMQPass = String(MQPass);
+  FFSMCName = String(MCName);
+  FFSMCPlant = String(MCPlant);
+  FFSMCBuild = String(MCBuild);
+  /////////////////////////////////////Set_parameter_from_SPIFFS.Read/////////////////////////////
 
   WiFi.disconnect(true);
   delay(100);
   WiFi.onEvent(WiFiStationConnected, SYSTEM_EVENT_STA_CONNECTED);
   WiFi.onEvent(WiFiGotIP, SYSTEM_EVENT_STA_GOT_IP);
   WiFi.onEvent(WiFiStationDisconnected, SYSTEM_EVENT_STA_DISCONNECTED);
+  //  set_parameter_from_SPIFFS();
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -392,10 +386,6 @@ void setup() {
     digitalWrite(ledstate, LOW);
     delay(1000);
   }
-//  Serial.println("");
-//  Serial.println("WiFi connected");
-//  Serial.println("IP address: ");
-//  Serial.println(WiFi.localIP());
 
   update_display();
 
@@ -412,6 +402,7 @@ void setup() {
 
 void loop() {
   AsyncElegantOTA.loop();   ////OTA
+  //  set_parameter_from_SPIFFS();
 
   if (!client.connected()) {
     if (millis() - previousMillis > interval ) {
@@ -429,6 +420,7 @@ void loop() {
       }
     }
   }
+
   counter_state();
   run_time_state();
   update_display();
