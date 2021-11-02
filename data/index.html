@@ -42,6 +42,7 @@
     .btn{
         border: none;
         padding: 14px;
+        : 14px;
         font-size: 1.1rem;
         color: #555;
         border-radius: 4px;
@@ -61,6 +62,7 @@
     <form class="borderline">
 <div class="restart_button">
     <button class="btn" type="button" onclick="esprest()"> ESP Restart </button>
+    <button class="btn" type="button" onclick="espupdate()"> Update Firmware </button>
 </div>
         <h1><b>Node Setup</b></h1>
         <div class="borderline">
@@ -87,10 +89,6 @@
             <p><b>Machine</b></p>
             <label for="mcname">Machine Name:</label>
             <input type="text" id="mcname" name="mcname"><br><br>
-            <label for="mcplant">Machine Plant:</label>
-            <input type="text" id="mcplant" name="mcplant"><br><br>
-            <label for="mcbd">Machine Building:</label>
-            <input type="text" id="mcbd" name="mcbd"><br><br>
         </div>
         <!-- <button type="submit"> Submit </button> -->
         <button type="button" onclick="dataSEND()"> Submit </button>
@@ -111,6 +109,19 @@
     MQServe.value = "192.168.74.72";
     MQPort.value = "1883";
 
+    function espupdate(){
+        var xhr = new XMLHttpRequest();
+        var urlrst = "/update?"
+
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("myDiv").innerText = this.responseText;
+            }
+        };
+        xhr.open("GET", urlrst, true);
+        xhr.send();
+    };
+
     function esprest() {
         console.log("ESP was restart");
         var xhr = new XMLHttpRequest();
@@ -118,7 +129,6 @@
 
         xhr.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                //document.getElementById("myDiv").innerHTML = this.responseText;
                 document.getElementById("myDiv").innerText = this.responseText;
             }
         };
@@ -135,13 +145,11 @@
         const mqttuser = document.getElementById("mqttuser").value;
         const mqttpass = document.getElementById("mqttpass").value;
         const mcname = document.getElementById("mcname").value;
-        const mcplant = document.getElementById("mcplant").value;
-        const mcbd = document.getElementById("mcbd").value;
 
 
         var xhr = new XMLHttpRequest();
         // var url = "/showpara?" + "SSID" + "=" + document.getElementById("wid").value + "&" + "Password" + "=" + document.getElementById("wpass").value + "&" + "MQServer" + "=" + document.getElementById("mqttserve").value + "&" + "MQPort" + "=" + document.getElementById("mqttport").value + "&" + "MQUser" + "=" + document.getElementById("mqttuser").value + "&" + "MQPass" + "=" + document.getElementById("mqttpass").value + "&" + "MCName" + "=" + document.getElementById("mcname").value + "&" + "MCPlant" + "=" + document.getElementById("mcplant").value + "&" + "MCBuild" + "=" + document.getElementById("mcbd").value;
-        var url = `/showpara?SSID=${ssid}&Password=${password}&MQServer=${mqttserver}&MQPort=${mqttport}&MQUser=${mqttuser}&MQPass=${mqttpass}&MCName=${mcname}&MCPlant=${mcplant}&MCBuild=${mcbd}`;
+        var url = `/showpara?SSID=${ssid}&Password=${password}&MQServer=${mqttserver}&MQPort=${mqttport}&MQUser=${mqttuser}&MQPass=${mqttpass}&MCName=${mcname}`;
 
         xhr.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
