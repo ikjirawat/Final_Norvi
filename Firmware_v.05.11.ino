@@ -26,21 +26,90 @@ char datart[100];
 char datact[100];
 char dataev[100];
 
-//Wi-Fi User name & Password: IoT & BIT210821k
-const char* ssid     = "Guest"; //Guest ---- I4.0
-const char* password = "BIR830741y"; //BIR830741y ---- factoryI4.0
+//Wi-Fi User name & Password: IoT & BIT210821k ///// Guest & BIR830741y ///// I4.0 & factoryI4.0
+String ssid() {
+  String read_spiffs = "";
+  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
+  StaticJsonDocument<512> doc;
+  DeserializationError error = deserializeJson(doc, read_spiffs);
+  const char* WSSID = doc["SSID"]; // "testt"
+  return WSSID;
+}
+
+String password() {
+  String read_spiffs = "";
+  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
+  StaticJsonDocument<512> doc;
+  DeserializationError error = deserializeJson(doc, read_spiffs);
+  const char* Password = doc["Password"]; // "testt"
+  return Password;
+}
 
 //MQTT Broker IP 192.168.74.72  //13.10.0.87 ///for test: broker.hivemq.com
+//  const char* WSSID = doc["SSID"]; // "IoT"
+//  const char* Password = doc["Password"]; // "BIT210821k"
+//  const char* MQServer = doc["MQServer"]; // "192.168.74.72"
+//  const char* MQPort = doc["MQPort"]; // "1883"
+//  const char* MQUser = doc["MQUser"]; // "oee"
+//  const char* MQPass = doc["MQPass"]; // "testt"
+//  const char* MCName = doc["MCName"]; // "m04"
+//  const char* MCPlant = doc["MCPlant"]; // "R2"
+//  const char* MCBuild = doc["MCBuild"]; // "R2"
 
-const char* mqtt_server = "broker.hivemq.com";
+const char* mqtt_server() {
+  String read_spiffs = "";
+  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
+  StaticJsonDocument<512> doc;
+  DeserializationError error = deserializeJson(doc, read_spiffs);
+  const char* MQServer = doc["MQServer"]; // "testt"
+  return MQServer;
+}
 
-String mcName = "m06";
-String mcLoca = "R2";
-String mcBuilding = "R2";
+const char* mcName() {
+  String read_spiffs = "";
+  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
+  StaticJsonDocument<512> doc;
+  DeserializationError error = deserializeJson(doc, read_spiffs);
+  const char* MCName = doc["MCName"]; // "testt"
+  return MCName;
+}
 
-#define mqtt_user "" //beltonoee
-#define mqtt_pass "" //beltonoee
-#define mqtt_port 1883
+const char* mcLoca() {
+  String read_spiffs = "";
+  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
+  StaticJsonDocument<512> doc;
+  DeserializationError error = deserializeJson(doc, read_spiffs);
+  const char* MCPlant = doc["MCPlant"]; // "testt"
+  return MCPlant;
+}
+
+const char* mqtt_user() {
+  String read_spiffs = "";
+  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
+  StaticJsonDocument<512> doc;
+  DeserializationError error = deserializeJson(doc, read_spiffs);
+  const char* MQUser = doc["MQUser"]; // "testt"
+  return MQUser;
+}
+
+const char* mqtt_pass() {
+  String read_spiffs = "";
+  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
+  StaticJsonDocument<512> doc;
+  DeserializationError error = deserializeJson(doc, read_spiffs);
+  const char* MQPass = doc["MQPass"]; // "testt"
+  return MQPass;
+}
+
+const char* mqtt_port() {
+  String read_spiffs = "";
+  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
+  StaticJsonDocument<512> doc;
+  DeserializationError error = deserializeJson(doc, read_spiffs);
+  const char* MQPort = doc["MQPort"]; // "1883"
+  return MQPort;
+}
+
 #define mqtt_topic "test"
 #define mqtt_runtime "R2/rt/m06"
 #define mqtt_downtime "R2/idlt/m06"
@@ -102,15 +171,7 @@ int evstate = 0;
 String statusCheckRT;
 String receieveFromIP = "";
 
-String FFSSSID;
-String FFSPassword;
-String FFSMQServer;
-String FFSMQPort;
-String FFSMQUser;
-String FFSMQPass;
-String FFSMCName;
-String FFSMCPlant;
-String FFSMCBuild;
+
 
 void callback(char* topic, byte * payload, unsigned int length) {
   Serial.println("-------new message from broker-----");
@@ -235,15 +296,15 @@ void Read_parameter_from_SPIFFS() {
   const char* MCPlant = doc["MCPlant"]; // "R2"
   const char* MCBuild = doc["MCBuild"]; // "R2"
 
-  FFSSSID = String(WSSID);
-  FFSPassword = String(Password);
-  FFSMQServer = String(MQServer);
-  FFSMQPort = String(MQPort);
-  FFSMQUser = String(MQUser);
-  FFSMQPass = String(MQPass);
-  FFSMCName = String(MCName);
-  FFSMCPlant = String(MCPlant);
-  FFSMCBuild = String(MCBuild);
+  //  FFSSSID = String(WSSID);
+  //  FFSPassword = String(Password);
+  //  FFSMQServer = String(MQServer);
+  //  FFSMQPort = String(MQPort);
+  //  FFSMQUser = String(MQUser);
+  //  FFSMQPass = String(MQPass);
+  //  FFSMCName = String(MCName);
+  //  FFSMCPlant = String(MCPlant);
+  //  FFSMCBuild = String(MCBuild);
   /////////////////////////////////////Read_parameter_from_SPIFFS.Read/////////////////////////////
 }
 
@@ -334,7 +395,7 @@ void WiFiStationDisconnected(WiFiEvent_t event, WiFiEventInfo_t info) {
   Serial.print("WiFi lost connection. Reason: ");
   Serial.println(info.disconnected.reason);
   Serial.println("Trying to Reconnect");
-  WiFi.begin(ssid, password);
+  WiFi.begin(ssid.c_str(), password.c_str());
 }
 
 void device_restart() {
@@ -392,7 +453,7 @@ void setup() {
   WiFi.onEvent(WiFiGotIP, SYSTEM_EVENT_STA_GOT_IP);
   WiFi.onEvent(WiFiStationDisconnected, SYSTEM_EVENT_STA_DISCONNECTED);
   //  Read_parameter_from_SPIFFS();
-  WiFi.begin(ssid, password);
+  WiFi.begin((const char*)ssid.c_str(), (const char*)password.c_str());
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
