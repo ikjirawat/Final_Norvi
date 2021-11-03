@@ -192,18 +192,18 @@ void publishParameter() {
   String read_spiffs = "";
   read_spiffs = readFile("setting.json");  //////Read from SPIFFS
 
-  StaticJsonDocument<512> doc;
-  DeserializationError error = deserializeJson(doc, read_spiffs);
+  StaticJsonDocument<512> ddoc;
+  DeserializationError error = deserializeJson(ddoc, read_spiffs);
 
-  const char* WSSID = doc["SSID"]; // "IoT"
-  const char* Password = doc["Password"]; // "BIT210821k"
-  const char* MQServer = doc["MQServer"]; // "192.168.74.72"
-  const char* MQPort = doc["MQPort"]; // "1883"
-  const char* MQUser = doc["MQUser"]; // "oee"
-  const char* MQPass = doc["MQPass"]; // "testt"
-  const char* MCName = doc["MCName"]; // "m04"
-  const char* MCPlant = doc["MCPlant"]; // "R2"
-  const char* MCBuild = doc["MCBuild"]; // "R2"
+  const char* WSSID = ddoc["SSID"]; // "IoT"
+  const char* Password = ddoc["Password"]; // "BIT210821k"
+  const char* MQServer = ddoc["MQServer"]; // "192.168.74.72"
+  const char* MQPort = ddoc["MQPort"]; // "1883"
+  const char* MQUser = ddoc["MQUser"]; // "oee"
+  const char* MQPass = ddoc["MQPass"]; // "testt"
+  const char* MCName = ddoc["MCName"]; // "m04"
+  const char* MCPlant = ddoc["MCPlant"]; // "R2"
+  const char* MCBuild = ddoc["MCBuild"]; // "R2"
 
   String LocalIP = String() + "IP:" + WiFi.localIP()[0] + "." + WiFi.localIP()[1] + "." + WiFi.localIP()[2] + "." + WiFi.localIP()[3];
   DynamicJsonDocument  doc(1024);
@@ -362,7 +362,7 @@ void Writing_parameter_from_web_server() {
   });
 
   server.on("/update", HTTP_GET, [](AsyncWebServerRequest * request) {
-    request->send(200, "/update", "text/plain", "Go to update page.");
+    request->send("/update", "text/html", "<form method='POST' action='/update' enctype='multipart/form-data'><input type='file' name='update'><input type='submit' value='Update'></form>");
   });
 
   server.on("/getParameter", HTTP_GET, [](AsyncWebServerRequest * request) {
