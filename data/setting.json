@@ -1,13 +1,34 @@
 {
-  "mcName": "mxx",
+  "mcName": "m06",
   "location": "R2",
   "deviceIP": "192.168.74.72",
   "deviceSN": "SN:m04-384E577C",
+  "RSSI": -74,
+
+  "sn" : "156487515487456",
+  "machine_id": "m06",
+  "name": "novi-m06",
+  "ip": "192.1668.10.15",
+  "subnet":"",
+  "mac": "12:45:87:11",
+  "firmware_verion": "1.0.2",
+  "model": "novi",
   "data": {
     "value": "1",
     "counter": "1",
     "event": "78",
     "mcstatus": "stop"
   },
-  "RSSI": -74
+  "mqtt_server": "192.168.10.12",
+  "mqtt_port": "1880",
+  "mqtt_username": "admin",
+  "mqtt_password": "belton",
+  "mqtt_qos": 2,
+  "mqtt_retain": true,
+  "mqtt_keepalive": 60,
+  "mqtt_will_topic": "belton/connection/",
+  "mqtt_will_payload": "",
+  "mqtt_will_qos": 2,
+  "mqtt_will_retain": true,
+  "discription": "-"
 }

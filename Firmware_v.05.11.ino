@@ -102,12 +102,12 @@ char dataev[100];
 //}
 
 //Wi-Fi User name & Password: IoT & BIT210821k
-const char* ssid     = "IoT"; //Guest ---- I4.0
-const char* password = "BIT210821k"; //BIR830741y ---- factoryI4.0
+const char* ssid     = "Unknow"; //Guest ---- I4.0
+const char* password = "IKjirawaT"; //BIR830741y ---- factoryI4.0
 
 //MQTT Broker IP 192.168.74.72  //13.10.0.87 ///for test: broker.hivemq.com
 
-const char* mqtt_server = "192.168.74.72";
+const char* mqtt_server = "broker.hivemq.com";
 
 String mcName = "m06";
 String mcLoca = "R2";
@@ -359,6 +359,10 @@ void Writing_parameter_from_web_server() {
   server.on("/espReset", HTTP_GET, [](AsyncWebServerRequest * request) {
     ESP.restart();
     request->send(200, "text/plain", "ESP32 has been reset.");
+  });
+
+  server.on("/update", HTTP_GET, [](AsyncWebServerRequest * request) {
+    request->send(200, "/update", "text/plain", "Go to update page.");
   });
 
   server.on("/getParameter", HTTP_GET, [](AsyncWebServerRequest * request) {

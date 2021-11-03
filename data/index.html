@@ -35,11 +35,13 @@
         align-content: center;
         width: 25%;
     }
-    .restart_button{
+
+    .restart_button {
         display: flex;
         justify-content: end;
     }
-    .btn{
+
+    .btn {
         border: none;
         padding: 14px;
         font-size: 1.1rem;
@@ -48,21 +50,21 @@
         background-color: #cacaca;
         transition: all;
     }
-    .btn:hover{
+
+    .btn:hover {
         cursor: pointer;
         background-color: #cfcfcf;
     }
-
 </style>
 
 <body>
 
 
     <form class="borderline">
-<div class="restart_button">
-    <button class="btn" type="button" onclick="esprest()"> ESP Restart </button>
-    <button class="btn" type="button" onclick="espupdate()"> Update Firmware </button>
-</div>
+        <div class="restart_button">
+            <button class="btn" type="button" onclick="esprest()"> ESP Restart </button>
+            <button class="btn" type="button" onclick="espupdate()"> Update Firmware </button>
+        </div>
         <h1><b>Node Setup</b></h1>
         <div class="borderline">
             <p><b>WiFi</b></p>
@@ -88,6 +90,8 @@
             <p><b>Machine</b></p>
             <label for="mcname">Machine Name:</label>
             <input type="text" id="mcname" name="mcname"><br><br>
+            <label for="mclocation">Machine Location:</label>
+            <input type="text" id="mclocation" name="mclocation"><br><br>
         </div>
         <!-- <button type="submit"> Submit </button> -->
         <button type="button" onclick="dataSEND()"> Submit </button>
@@ -108,7 +112,7 @@
     MQServe.value = "192.168.74.72";
     MQPort.value = "1883";
 
-    function espupdate(){
+    function espupdate() {
         var xhr = new XMLHttpRequest();
         var urlrst = "/update?"
 
@@ -147,8 +151,7 @@
 
 
         var xhr = new XMLHttpRequest();
-        // var url = "/showpara?" + "SSID" + "=" + document.getElementById("wid").value + "&" + "Password" + "=" + document.getElementById("wpass").value + "&" + "MQServer" + "=" + document.getElementById("mqttserve").value + "&" + "MQPort" + "=" + document.getElementById("mqttport").value + "&" + "MQUser" + "=" + document.getElementById("mqttuser").value + "&" + "MQPass" + "=" + document.getElementById("mqttpass").value + "&" + "MCName" + "=" + document.getElementById("mcname").value + "&" + "MCPlant" + "=" + document.getElementById("mcplant").value + "&" + "MCBuild" + "=" + document.getElementById("mcbd").value;
-        var url = `/showpara?SSID=${ssid}&Password=${password}&MQServer=${mqttserver}&MQPort=${mqttport}&MQUser=${mqttuser}&MQPass=${mqttpass}&MCName=${mcname}`;
+        var url = `/showpara?SSID=${ssid}&Password=${password}&MQServer=${mqttserver}&MQPort=${mqttport}&MQUser=${mqttuser}&MQPass=${mqttpass}&MCName=${mcname}&MCLocation=${mclocation}`;
 
         xhr.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
@@ -178,8 +181,8 @@ let mcplant = document.getElementById('mcplant').val();
 let mcbd = document.getElementById('mcbd').val();
 
  var url = `/showpara?wid=${wid}&wpass=${wpass}&mqttserve=${mqttserve}&mqttport=${mqttport}&mqttuser=${mqttuser}&mqttpass=${mqttpass}&mcname=${mcname}&mcplant=${mcplant}&mcbd=${mcbd}`; -->
- 
- <!-- function SendData() {
+
+<!-- function SendData() {
     console.log("button was clicked!");
     var xhr = new XMLHttpRequest();
     let wid = document.getElementById('wid').val();
