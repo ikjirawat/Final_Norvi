@@ -27,89 +27,95 @@ char datact[100];
 char dataev[100];
 
 //Wi-Fi User name & Password: IoT & BIT210821k ///// Guest & BIR830741y ///// I4.0 & factoryI4.0
-String ssid() {
-  String read_spiffs = "";
-  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
-  StaticJsonDocument<512> doc;
-  DeserializationError error = deserializeJson(doc, read_spiffs);
-  const char* WSSID = doc["SSID"]; // "testt"
-  return WSSID;
-}
+//String ssid() {
+//  String read_spiffs = "";
+//  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
+//  StaticJsonDocument<512> doc;
+//  DeserializationError error = deserializeJson(doc, read_spiffs);
+//  const char* WSSID = doc["SSID"]; // "testt"
+//  return WSSID;
+//}
 
-String password() {
-  String read_spiffs = "";
-  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
-  StaticJsonDocument<512> doc;
-  DeserializationError error = deserializeJson(doc, read_spiffs);
-  const char* Password = doc["Password"]; // "testt"
-  return Password;
-}
+//String password() {
+//  String read_spiffs = "";
+//  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
+//  StaticJsonDocument<512> doc;
+//  DeserializationError error = deserializeJson(doc, read_spiffs);
+//  const char* Password = doc["Password"]; // "testt"
+//  return Password;
+//}
+//MQTT Broker IP 192.168.74.72  //13.10.0.87 ///for test: broker.hivemq.com
+
+
+//const char* mqtt_server() {
+//  String read_spiffs = "";
+//  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
+//  StaticJsonDocument<512> doc;
+//  DeserializationError error = deserializeJson(doc, read_spiffs);
+//  const char* MQServer = doc["MQServer"]; // "testt"
+//  return MQServer;
+//}
+//
+//const char* mcName() {
+//  String read_spiffs = "";
+//  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
+//  StaticJsonDocument<512> doc;
+//  DeserializationError error = deserializeJson(doc, read_spiffs);
+//  const char* MCName = doc["MCName"]; // "testt"
+//  return MCName;
+//}
+//
+//const char* mcLoca() {
+//  String read_spiffs = "";
+//  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
+//  StaticJsonDocument<512> doc;
+//  DeserializationError error = deserializeJson(doc, read_spiffs);
+//  const char* MCPlant = doc["MCPlant"]; // "testt"
+//  return MCPlant;
+//}
+//
+//const char* mqtt_user() {
+//  String read_spiffs = "";
+//  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
+//  StaticJsonDocument<512> doc;
+//  DeserializationError error = deserializeJson(doc, read_spiffs);
+//  const char* MQUser = doc["MQUser"]; // "testt"
+//  return MQUser;
+//}
+//
+//const char* mqtt_pass() {
+//  String read_spiffs = "";
+//  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
+//  StaticJsonDocument<512> doc;
+//  DeserializationError error = deserializeJson(doc, read_spiffs);
+//  const char* MQPass = doc["MQPass"]; // "testt"
+//  return MQPass;
+//}
+//
+//const char* mqtt_port() {
+//  String read_spiffs = "";
+//  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
+//  StaticJsonDocument<512> doc;
+//  DeserializationError error = deserializeJson(doc, read_spiffs);
+//  const char* MQPort = doc["MQPort"]; // "1883"
+//  return MQPort;
+//}
+
+//Wi-Fi User name & Password: IoT & BIT210821k
+const char* ssid     = "IoT"; //Guest ---- I4.0
+const char* password = "BIT210821k"; //BIR830741y ---- factoryI4.0
 
 //MQTT Broker IP 192.168.74.72  //13.10.0.87 ///for test: broker.hivemq.com
-//  const char* WSSID = doc["SSID"]; // "IoT"
-//  const char* Password = doc["Password"]; // "BIT210821k"
-//  const char* MQServer = doc["MQServer"]; // "192.168.74.72"
-//  const char* MQPort = doc["MQPort"]; // "1883"
-//  const char* MQUser = doc["MQUser"]; // "oee"
-//  const char* MQPass = doc["MQPass"]; // "testt"
-//  const char* MCName = doc["MCName"]; // "m04"
-//  const char* MCPlant = doc["MCPlant"]; // "R2"
-//  const char* MCBuild = doc["MCBuild"]; // "R2"
 
-const char* mqtt_server() {
-  String read_spiffs = "";
-  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
-  StaticJsonDocument<512> doc;
-  DeserializationError error = deserializeJson(doc, read_spiffs);
-  const char* MQServer = doc["MQServer"]; // "testt"
-  return MQServer;
-}
+const char* mqtt_server = "192.168.74.72";
 
-const char* mcName() {
-  String read_spiffs = "";
-  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
-  StaticJsonDocument<512> doc;
-  DeserializationError error = deserializeJson(doc, read_spiffs);
-  const char* MCName = doc["MCName"]; // "testt"
-  return MCName;
-}
+String mcName = "m06";
+String mcLoca = "R2";
+String mcBuilding = "R2";
 
-const char* mcLoca() {
-  String read_spiffs = "";
-  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
-  StaticJsonDocument<512> doc;
-  DeserializationError error = deserializeJson(doc, read_spiffs);
-  const char* MCPlant = doc["MCPlant"]; // "testt"
-  return MCPlant;
-}
-
-const char* mqtt_user() {
-  String read_spiffs = "";
-  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
-  StaticJsonDocument<512> doc;
-  DeserializationError error = deserializeJson(doc, read_spiffs);
-  const char* MQUser = doc["MQUser"]; // "testt"
-  return MQUser;
-}
-
-const char* mqtt_pass() {
-  String read_spiffs = "";
-  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
-  StaticJsonDocument<512> doc;
-  DeserializationError error = deserializeJson(doc, read_spiffs);
-  const char* MQPass = doc["MQPass"]; // "testt"
-  return MQPass;
-}
-
-const char* mqtt_port() {
-  String read_spiffs = "";
-  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
-  StaticJsonDocument<512> doc;
-  DeserializationError error = deserializeJson(doc, read_spiffs);
-  const char* MQPort = doc["MQPort"]; // "1883"
-  return MQPort;
-}
-
+#define mqtt_user "" //beltonoee
+#define mqtt_pass "" //beltonoee
+#define mqtt_port 1883
 #define mqtt_topic "test"
 #define mqtt_runtime "R2/rt/m06"
 #define mqtt_downtime "R2/idlt/m06"
@@ -180,6 +186,43 @@ void callback(char* topic, byte * payload, unsigned int length) {
   Serial.print("data:");
   Serial.write(payload, length);
   Serial.println();
+}
+
+void publishParameter() {
+  String read_spiffs = "";
+  read_spiffs = readFile("setting.json");  //////Read from SPIFFS
+
+  StaticJsonDocument<512> doc;
+  DeserializationError error = deserializeJson(doc, read_spiffs);
+
+  const char* WSSID = doc["SSID"]; // "IoT"
+  const char* Password = doc["Password"]; // "BIT210821k"
+  const char* MQServer = doc["MQServer"]; // "192.168.74.72"
+  const char* MQPort = doc["MQPort"]; // "1883"
+  const char* MQUser = doc["MQUser"]; // "oee"
+  const char* MQPass = doc["MQPass"]; // "testt"
+  const char* MCName = doc["MCName"]; // "m04"
+  const char* MCPlant = doc["MCPlant"]; // "R2"
+  const char* MCBuild = doc["MCBuild"]; // "R2"
+
+  String LocalIP = String() + "IP:" + WiFi.localIP()[0] + "." + WiFi.localIP()[1] + "." + WiFi.localIP()[2] + "." + WiFi.localIP()[3];
+  DynamicJsonDocument  doc(1024);
+  JsonObject control =  doc.to<JsonObject>();;
+  control["SSID"] = WSSID;
+  control["MQPort"] = MQPort;
+  control["mcName"] = MCName;
+  control["location"] = MCPlant;
+  control["deviceIP"] = LocalIP;
+  control["deviceSN"] = String(serialNo);
+  JsonObject objData = doc.createNestedObject("data");
+  objData["runtime"] = datart;
+  objData["counter"] = datact;
+  objData["event"] = dataev;
+  objData["mcstatus"] = statusCheckRT;
+  control["RSSI"] = WiFi.RSSI();
+  char bufferSend[300] ;
+  serializeJson(doc, bufferSend);
+  client.publish(mqtt_json, bufferSend, true);
 }
 
 int checkState() {
